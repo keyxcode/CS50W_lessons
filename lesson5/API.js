@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
             const definition = data[0]['meanings'][1]['definitions'][0]['definition'];
             document.querySelector('#meaning').innerHTML = definition;
-
-            document.querySelector('#word').value = "";
+        })
+        .catch(error => {
+            console.log(error);
         })
 
         return false;
