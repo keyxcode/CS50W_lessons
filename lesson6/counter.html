@@ -13,14 +13,28 @@
     <div id="app"></div>
 
     <script type="text/babel">
-        function App() {
 
-            const [count, setCount] = React.userState(0);
+        // App component
+        function App() {
+            // the useState "hook" accepts the initial state 0 as its arg
+            // and spits out 2 things: 
+            // 1. The state variable itself: count
+            // 2. A function for updating that state when needed
+            const [count, setCount] = React.useState(0);
+
+            // In JS, you can have functions defined in another functino
+            function updateCount() {
+                // Use setCount to change the state of count
+                // instead of directly going count++
+                setCount(count +1);
+            }
 
             return (
+                // 
                 <div>
                     <div>{count}</div>
-                    <button>Count</button>
+                {/* Notice the React onClick attribute is different from HTML onclick */}
+                    <button onClick={updateCount}>Count</button>
                 </div>
             )
         }

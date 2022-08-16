@@ -18,6 +18,7 @@
     <script type="text/babel">
         
         // Hello() is a React function
+        // props is the conventional arg to put in a component
         function Hello(props) {
             // Return what we like to render to the DOM
             // Notice how we can write direct HTML syntax inside JSX
@@ -39,7 +40,7 @@
             )
         }
 
-        // The ReactDOM function takes 2 args: 
+        // The ReactDOM render function takes 2 args: 
         // 1. A component to render
         // 2. A DOM element to render the component to
         ReactDOM.render(<App />, document.querySelector('#app'));
