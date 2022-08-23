@@ -3,9 +3,11 @@ from django.test import Client, TestCase
 
 from .models import Airport, Flight, Passenger
 
-# Create your tests here.
+# Create your tests here (similar to unittest)
 class FlightTestCase(TestCase):
 
+    # Dummies created from setUp won't be touched by 
+    # the actual db that the users interact with
     def setUp(self):
 
         # Create airports.
@@ -16,6 +18,9 @@ class FlightTestCase(TestCase):
         Flight.objects.create(origin=a1, destination=a2, duration=100)
         Flight.objects.create(origin=a1, destination=a1, duration=200)
         Flight.objects.create(origin=a1, destination=a2, duration=-100)
+
+    #==========================================================================
+    # Flight validity tests
 
     def test_departures_count(self):
         a = Airport.objects.get(code="AAA")
@@ -42,11 +47,18 @@ class FlightTestCase(TestCase):
         f = Flight.objects.get(origin=a1, destination=a2, duration=-100)
         self.assertFalse(f.is_valid_flight())
 
+    #==========================================================================
+    # Client simulation tests
+
     def test_index(self):
+        # Create a dummy client
         c = Client()
+        # Try to request the flights route
         response = c.get("/flights/")
         print(response)
+        # We can have multiple assert conditions
         self.assertEqual(response.status_code, 200)
+        # Access and test the web page context
         self.assertEqual(response.context["flights"].count(), 3)
 
     def test_valid_flight_page(self):
@@ -58,6 +70,7 @@ class FlightTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_flight_page(self):
+        # Make sure 404 when flight id is > max
         max_id = Flight.objects.all().aggregate(Max("id"))["id__max"]
 
         c = Client()
