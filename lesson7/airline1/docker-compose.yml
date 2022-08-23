@@ -1,12 +1,25 @@
+# Specify Docker compose version 3
 version: '3'
 
+# List the services we want to to be a part of our application, 
+# where each service is going to be its own container,
+# which could be based on different Docker images. 
 services:
+    # databse
     db:
+        # Use an already existing postgres Docker image
         image: postgres
 
+    # web application
     web:
+        # Build img based on the Dockerfile we wrote and included in this folder
         build: .
+        # Use the specified path within the container
         volumes:
             - .:/usr/src/app
+        # Link port 8000 within the container to port 8000 on our computer
         ports:
             - "8000:8000"
+
+# Finally, start up our services with the command docker-compose up
+# This will launch both of our servers inside of new Docker containers
